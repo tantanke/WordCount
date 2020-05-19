@@ -2,9 +2,9 @@
 #include<string.h>
 int main(int argc,char *argv[])
 {
-    int words,count=0,wCount=1;//单词的默认数量为一 
+    int count=0,wCount=1;//单词的默认数量为一 
     int isC=0,isW=0;//判断调用函数 
-    char strC[]="-c",strW[]="-w",dou[]=",";
+    char words;
     FILE *fp;
     // 判断参数是否存在 
     if(argc!=3)
@@ -13,7 +13,7 @@ int main(int argc,char *argv[])
         return -1;
     }
     // 判断函数的调用方式是-c还是-w 
-    if(strcmp(argv[1],strC)){
+    if(argv[1][1]=='w'){
     	isW=1;
 	}else {
 	  isC=1;
