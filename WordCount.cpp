@@ -1,11 +1,49 @@
 #include<stdio.h>
 #include<string.h>
+//计算字符数 
+int countChar(char *p){
+	int count=0;
+	char words; 
+	FILE *fp;
+	if((fp=fopen(p,"r")) == NULL)
+    {
+        printf("读取文件失败！请重试！");
+        return -1;
+    }
+    words = fgetc(fp);
+    while(words!=EOF)
+    {
+    	//根据输入不同判断字符还是单词 
+    	count++;
+        words = fgetc(fp);
+    }
+    fclose(fp);
+    printf("字符数：%d",count);
+} 
+//计算单词数
+int countWords(char *p){
+	int wCount=1;//默认单词数为1 
+	char words;
+	FILE *fp;
+	if((fp=fopen(p,"r")) == NULL)
+    {
+        printf("读取文件失败！请重试！");
+        return -1;
+    }
+    words = fgetc(fp);
+    while(words!=EOF)
+    {
+    	//根据输入不同判断字符还是单词 	
+		if(words == ','||words == ' ')
+		{
+			wCount++;
+		}
+		words = fgetc(fp);
+	}
+	printf("单词数：%d",wCount);
+}
 int main(int argc,char *argv[])
 {
-    int count=0,wCount=1;//单词的默认数量为一 
-    int isC=0,isW=0;//判断调用函数 
-    char words;
-    FILE *fp;
     // 判断参数是否存在 
     if(argc!=3)
     {
@@ -14,40 +52,11 @@ int main(int argc,char *argv[])
     }
     // 判断函数的调用方式是-c还是-w 
     if(argv[1][1]=='w'){
-    	isW=1;
+    	countWords(argv[2]);
 	}else {
-	  isC=1;
+	  countChar(argv[2]);
 	}
-    // 打开文件 
-    if((fp=fopen(argv[2],"r")) == NULL)
-    {
-        printf("读取文件失败！请重试！");
-        return -1;
-    }
-    //获取全部字符 进行判断 
-    words = fgetc(fp);
-    while(words!=EOF)
-    {
-    	//根据输入不同判断字符还是单词 
-    	if(isC == 1){
-    		count++;
-		} else{
-			// 记录数量 
-			if(words == ','||words == ' ')
-			{
-				wCount++;
-			}
-		}
-        words = fgetc(fp);
-    }
-    //输出结果 
-    if(isC==1){
-    	printf("字符数：%d",count);
-	} else{
-		printf("单词数：%d",wCount);
-	}
-  
-    fclose(fp);
+    //调用不同函数 
     return 0;
 }
 
